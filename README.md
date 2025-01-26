@@ -1,7 +1,7 @@
 # systemprompt-mcp-gmail
 
 [![npm version](https://img.shields.io/npm/v/systemprompt-mcp-gmail.svg)](https://www.npmjs.com/package/systemprompt-mcp-gmail)
-[![smithery badge](https://smithery.ai/badge/systemprompt-mcp-gmail)](https://smithery.ai/server/systemprompt-mcp-gmail)
+[![smithery badge](https://smithery.ai/badge/@Ejb503/systemprompt-mcp-gmail)](https://smithery.ai/server/@Ejb503/systemprompt-mcp-gmail)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Twitter Follow](https://img.shields.io/twitter/follow/tyingshoelaces_?style=social)](https://twitter.com/tyingshoelaces_)
 [![Discord](https://img.shields.io/discord/1255160891062620252?color=7289da&label=discord)](https://discord.com/invite/wkAbSuPWpr)
@@ -27,6 +27,14 @@ Search emails
 Read emails
 
 ## Installation
+
+### Installing via Smithery
+
+To install systemprompt-mcp-gmail for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@Ejb503/systemprompt-mcp-gmail):
+
+```bash
+npx -y @smithery/cli install @Ejb503/systemprompt-mcp-gmail --client claude
+```
 
 This server requires GOOGLE_CREDENTIALS and GOOGLE_TOKEN environment variables to be set. These must be base64 encoded strings of the credentials and token. There is a script to help with this in the [multimodal-mcp-client](https://github.com/Ejb503/multimodal-mcp-client) repository. Follow the instructions here: https://github.com/Ejb503/multimodal-mcp-client/blob/master/scripts/google-auth/README.md
 
