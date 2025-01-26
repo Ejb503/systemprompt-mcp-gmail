@@ -1,0 +1,25 @@
+# Smithery configuration file: https://smithery.ai/docs/config#smitheryyaml
+
+startCommand:
+  type: stdio
+  configSchema:
+    # JSON Schema defining the configuration options for the MCP.
+    type: object
+    required:
+      - googleCredentials
+      - googleToken
+      - systempromptApiKey
+    properties:
+      googleCredentials:
+        type: string
+        description: Base64 encoded Google credentials.
+      googleToken:
+        type: string
+        description: Base64 encoded Google token.
+      systempromptApiKey:
+        type: string
+        description: API key for authenticating with the systemprompt.
+  commandFunction:
+    # A function that produces the CLI command to start the MCP on stdio.
+    |-
+    (config) => ({ command: 'node', args: ['build/index.js'], env: { GOOGLE_CREDENTIALS: config.googleCredentials, GOOGLE_TOKEN: config.googleToken, SYSTEMPROMPT_API_KEY: config.systempromptApiKey } })
