@@ -2,7 +2,7 @@ import { Implementation, ServerCapabilities } from "@modelcontextprotocol/sdk/ty
 
 export const serverConfig: Implementation = {
   name: "systemprompt-mcp-gmail",
-  version: "1.0.0",
+  version: "1.0.10",
   metadata: {
     name: "System Prompt MCP Gmail",
     description:

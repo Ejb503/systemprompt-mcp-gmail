@@ -1,6 +1,6 @@
 {
   "name": "systemprompt-mcp-gmail",
-  "version": "1.0.4",
+  "version": "1.0.10",
   "description": "A specialized Model Context Protocol (MCP) server that enables you to search, read, delete and send emails from your Gmail account, leveraging an AI Agent to help with each operation.",
   "type": "module",
   "bin": {

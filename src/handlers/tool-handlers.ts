@@ -23,6 +23,7 @@ import { TOOL_ERROR_MESSAGES } from "../constants/tools.js";
 import { sendSamplingRequest } from "./sampling.js";
 import { handleGetPrompt } from "./prompt-handlers.js";
 import { injectVariables } from "../utils/message-handlers.js";
+import { gmail_v1 } from "googleapis";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -52,12 +53,32 @@ export async function handleToolCall(request: CallToolRequest): Promise<CallTool
       case "gmail_list_emails": {
         const gmail = new GmailService();
         const args = request.params.arguments as unknown as ListEmailsArgs;
-        const messages = await gmail.listMessages(args.maxResults);
+        const messages = await gmail.listMessages(args.maxResults ?? 5);
+
+        // Format messages into a more concise structure
+        const formattedMessages = messages.map((msg: gmail_v1.Schema$Message) => ({
+          id: msg.id,
+          threadId: msg.threadId,
+          snippet: msg.snippet,
+          // Extract key headers
+          from: msg.payload?.headers?.find((h) => h?.name?.toLowerCase() === "from")?.value,
+          to: msg.payload?.headers?.find((h) => h?.name?.toLowerCase() === "to")?.value,
+          subject: msg.payload?.headers?.find((h) => h?.name?.toLowerCase() === "subject")?.value,
+          date: msg.payload?.headers?.find((h) => h?.name?.toLowerCase() === "date")?.value,
+        }));
+
         return {
           content: [
             {
               type: "text",
-              text: JSON.stringify(messages, null, 2),
+              text: JSON.stringify(
+                {
+                  count: formattedMessages.length,
+                  messages: formattedMessages,
+                },
+                null,
+                2,
+              ),
             },
           ],
         };

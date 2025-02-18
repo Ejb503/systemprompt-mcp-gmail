@@ -19,7 +19,7 @@ export const TOOLS: Tool[] = [
         maxResults: {
           type: "number",
           description:
-            "Maximum number of emails to return. Defaults to 10 if not specified. Never more than 50, for token limits.",
+            "Maximum number of emails to return. Default 5. Never more than 10, for token limits.",
         },
         after: {
           type: "string",

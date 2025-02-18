@@ -195,10 +195,48 @@ export const EDIT_DRAFT_PROMPT: SamplingPrompt = {
   },
 };
 
+// Create Draft Prompt
+export const CREATE_DRAFT_PROMPT: SamplingPrompt = {
+  name: "gmail_create_draft",
+  description: "Creates a draft email based on user instructions",
+  arguments: [
+    ...promptArgs,
+    {
+      name: "to",
+      description: "Recipient email address(es)",
+      required: true,
+    },
+  ],
+  messages: [
+    {
+      role: "assistant",
+      content: {
+        type: "text",
+        text: EMAIL_SEND_INSTRUCTIONS,
+      },
+    },
+    {
+      role: "user",
+      content: {
+        type: "text",
+        text: `<input>
+          <userInstructions>{{userInstructions}}</userInstructions>
+          <to>{{to}}</to>
+        </input>`,
+      },
+    },
+  ],
+  _meta: {
+    callback: "create_draft",
+    responseSchema: DRAFT_EMAIL_RESPONSE_SCHEMA,
+  },
+};
+
 // Export all prompts
 export const PROMPTS = [
   SEND_EMAIL_PROMPT,
   REPLY_EMAIL_PROMPT,
   REPLY_DRAFT_PROMPT,
   EDIT_DRAFT_PROMPT,
+  CREATE_DRAFT_PROMPT,
 ];

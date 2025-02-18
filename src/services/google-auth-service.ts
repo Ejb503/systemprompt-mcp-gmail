@@ -34,17 +34,28 @@ export class GoogleAuthService {
         throw new Error("GOOGLE_CREDENTIALS environment variable is not set");
       }
 
-      const credentials: GoogleCredentials = JSON.parse(
-        Buffer.from(credentialsBase64, "base64").toString(),
-      );
+      const decodedCredentials = Buffer.from(credentialsBase64, "base64").toString();
+      const credentials: GoogleCredentials = JSON.parse(decodedCredentials);
 
-      // Handle both web and installed credentials
-      const { client_secret, client_id, redirect_uris } =
-        credentials.web ||
-        credentials.installed ||
-        (() => {
-          throw new Error("Invalid credentials format: missing web or installed configuration");
-        })();
+      // Check credentials format first
+      if (!credentials.web && !credentials.installed) {
+        throw new Error(
+          `Invalid credentials format: credentials must contain either 'web' or 'installed' configuration. Received keys: ${Object.keys(credentials).join(", ")}`,
+        );
+      }
+
+      const config = credentials.web || credentials.installed;
+      if (!config) {
+        throw new Error("Neither web nor installed credentials found");
+      }
+
+      const { client_secret, client_id, redirect_uris } = config;
+
+      if (!client_secret || !client_id || !redirect_uris?.length) {
+        throw new Error(
+          "Invalid credentials: missing required fields (client_secret, client_id, or redirect_uris)",
+        );
+      }
 
       this.oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
 
